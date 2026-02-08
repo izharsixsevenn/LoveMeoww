@@ -31,14 +31,56 @@ h1{color:#b1124c}
     to{transform:translateY(110vh);}
 }
 
-/* Envelope */
-.envelope{
-    width:300px;
+/* ================= ENVELOPE ================= */
+.envelope-wrapper{
+    display:flex;
+    justify-content:center;
     margin:40px auto;
-    cursor:pointer;
 }
 
-/* Card */
+.envelope{
+    width:320px;
+    height:220px;
+    background:#f8b6c8;
+    position:relative;
+    border-radius:14px;
+}
+
+.flap{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#e89ab0;
+    clip-path:polygon(0 0,100% 0,50% 55%);
+    transform-origin:top;
+    transition:transform 0.9s ease;
+    z-index:3;
+}
+
+.letter{
+    position:absolute;
+    inset:20px;
+    background:white;
+    border-radius:12px;
+    padding:18px;
+    z-index:2;
+}
+
+.letter p{
+    font-family:'Allura',cursive;
+    font-size:30px;
+    color:#b1124c;
+    margin-bottom:14px;
+}
+
+/* Open animation */
+.envelope.open .flap{
+    transform:rotateX(180deg);
+}
+
+/* ================= CARD ================= */
 .card{
     display:none;
     background:#fff;
@@ -74,6 +116,12 @@ button{
     cursor:pointer;
 }
 
+/* No button (not the answer) */
+#noBtn{
+    background:#999;
+    position:relative;
+}
+
 /* Gallery */
 .gallery{
     display:flex;
@@ -91,18 +139,6 @@ button{
 .border-rose{border:10px solid pink}
 .border-lily{border:10px solid lavender}
 .border-daisy{border:10px solid peachpuff}
-
-/* Countdown */
-#countdown{
-    font-size:18px;
-    margin:10px;
-}
-
-/* Wax seal */
-.seal{
-    font-size:36px;
-    cursor:pointer;
-}
 
 /* Map */
 #map{
@@ -123,28 +159,36 @@ button{
 </audio>
 <button onclick="toggleMusic()">🎶 Music</button>
 
-<!-- Envelope -->
-<div class="envelope" onclick="openEnvelope()">
-    <img src="https://i.imgur.com/Zb7ZQyD.png" width="300">
+<!-- ENVELOPE -->
+<div class="envelope-wrapper">
+  <div class="envelope" id="envelope">
+    <div class="flap"></div>
+    <div class="letter">
+      <p>Would you be my Valentine? 💖</p>
+      <button onclick="answerYes()">Yes 💕</button>
+      <button id="noBtn">No 🙈</button>
+    </div>
+  </div>
 </div>
 
-<!-- Card -->
+<!-- CARD -->
 <div class="card border-rose" id="card">
 
 <p class="script">
 Dear Liyana,<br><br>
 
-I am sorry that I can’t be with you on Valentine’s Day. I made this special card so I can send my wishes to you from far away. You are my friend, my lover, my ride or die, and everything I could ever wish for in my world.<br><br>
+I am sorry that I can’t be with you on Valentine’s Day. I made this special card so I can send my wishes to you from far away.
+You are my friend, my lover, my ride or die, and everything I could ever wish for in my world.<br><br>
 
-Never question my love for you, because my heart for you is bigger than for anyone else. I may not be a rich man, but I am a man with a pure heart and genuine love—and that I am, always and forever, for you.
+Never question my love for you, because my heart for you is bigger than for anyone else.
+I may not be a rich man, but I am a man with a pure heart and genuine love—and that I am, always and forever, for you.
 </p>
 
 <h3>📸 Our Memories</h3>
 <div class="gallery">
-<img src="./pic1.png" alt="pic1" width="220">
-<img src="./pic2.png" alt="pic2" width="220">
-<img src="./pic3.png" alt="pic3" width="220">
-
+  <img src="./pic1.png">
+  <img src="./pic2.png">
+  <img src="./pic3.png">
 </div>
 
 <h3>🌸 Floral Border</h3>
@@ -173,34 +217,33 @@ for(let i=0;i<30;i++){
     document.body.appendChild(h);
 }
 
-// Envelope open
-function openEnvelope(){
-    document.querySelector(".envelope").style.display="none";
-    document.getElementById("card").style.display="block";
-    initMap();
-}
-
 // Music
 function toggleMusic(){
     let m=document.getElementById("music");
     m.paused ? m.play() : m.pause();
 }
 
-// Border
+// YES → open envelope → show card
+function answerYes(){
+    document.getElementById("envelope").classList.add("open");
+    setTimeout(()=>{
+        document.querySelector(".envelope-wrapper").style.display="none";
+        document.getElementById("card").style.display="block";
+        initMap();
+    },900);
+}
+
+// NO → not an option 😌
+const noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("mouseover", ()=>{
+    noBtn.style.left = Math.random()*120 - 60 + "px";
+    noBtn.style.top  = Math.random()*80 - 40 + "px";
+});
+
+// Border change
 function setBorder(cls){
     document.getElementById("card").className="card "+cls;
 }
-
-// Countdown
-setInterval(()=>{
-    let d=new Date(document.getElementById("dateInput").value);
-    let now=new Date();
-    let diff=d-now;
-    if(diff>0){
-        document.getElementById("countdown").innerText =
-        Math.floor(diff/86400000)+" days to go 💕";
-    }
-},1000);
 
 // Poem
 function generatePoem(){
@@ -214,12 +257,7 @@ function generatePoem(){
     poems[Math.floor(Math.random()*poems.length)];
 }
 
-// Wax seal
-function seal(){
-    alert("🔐 Sealed with love");
-}
-
-// Map – Bukit Bintang
+// Map
 function initMap(){
     let bukitBintang = [3.1466, 101.7101];
     let map = L.map('map').setView(bukitBintang, 16);
