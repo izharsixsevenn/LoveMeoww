@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Our Love Story 💖</title>
+<title>For Liyana 💖</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet">
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Playfair+Display&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
 <style>
@@ -13,18 +14,22 @@ body{
     font-family:'Playfair Display',serif;
     background:linear-gradient(to bottom,#ffd1dc,#fff);
     text-align:center;
+    overflow-x:hidden;
 }
-h1{color:#c2185b}
+
+h1{color:#b1124c}
 
 /* Falling hearts */
 .heart{
     position:fixed;
     top:-10px;
-    color:rgba(255,0,100,.6);
+    color:rgba(255,0,100,0.6);
     font-size:20px;
     animation:fall linear infinite;
 }
-@keyframes fall{to{transform:translateY(110vh);}}
+@keyframes fall{
+    to{transform:translateY(110vh);}
+}
 
 /* Envelope */
 .envelope{
@@ -32,37 +37,54 @@ h1{color:#c2185b}
     margin:40px auto;
     cursor:pointer;
 }
+
+/* Card */
 .card{
     display:none;
-    background:white;
-    padding:20px;
+    background:#fff;
+    padding:25px;
     border-radius:20px;
-    box-shadow:0 15px 30px rgba(0,0,0,.2);
+    box-shadow:0 15px 30px rgba(0,0,0,0.25);
+    max-width:900px;
+    margin:20px auto;
 }
 
-/* Script text */
+/* Love letter */
 .script{
-    font-family:'Great Vibes',cursive;
-    font-size:30px;
-    color:#c2185b;
+    font-family:'Allura',cursive;
+    font-size:34px;
+    color:#b1124c;
+    line-height:1.6;
+    animation:fadeIn 2.5s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(15px);}
+    to{opacity:1; transform:translateY(0);}
 }
 
 /* Buttons */
 button{
-    background:#c2185b;
+    background:#b1124c;
     color:white;
     border:none;
     padding:10px 18px;
-    border-radius:20px;
-    margin:5px;
+    border-radius:25px;
+    margin:6px;
     cursor:pointer;
 }
 
 /* Gallery */
+.gallery{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+}
 .gallery img{
-    width:120px;
-    border-radius:15px;
-    margin:5px;
+    width:220px;
+    border-radius:18px;
+    margin:8px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.2);
 }
 
 /* Borders */
@@ -70,29 +92,30 @@ button{
 .border-lily{border:10px solid lavender}
 .border-daisy{border:10px solid peachpuff}
 
+/* Countdown */
+#countdown{
+    font-size:18px;
+    margin:10px;
+}
+
 /* Wax seal */
 .seal{
-    font-size:35px;
+    font-size:36px;
     cursor:pointer;
-    transition:transform .3s;
 }
-.seal:active{transform:scale(.9)}
 
 /* Map */
-#map{height:300px;border-radius:15px;margin:15px}
-
-/* Countdown */
-#countdown{font-size:18px;margin:10px}
-
-/* Password */
-#lockScreen{margin-top:30px}
-input{padding:8px;border-radius:10px;border:1px solid #ccc}
+#map{
+    height:320px;
+    border-radius:18px;
+    margin:20px 0;
+}
 </style>
 </head>
 
 <body>
 
-<h1>Happy Anniversary 💕</h1>
+<h1>Happy Valentine’s Day 💕</h1>
 
 <!-- Music -->
 <audio id="music" loop>
@@ -100,28 +123,28 @@ input{padding:8px;border-radius:10px;border:1px solid #ccc}
 </audio>
 <button onclick="toggleMusic()">🎶 Music</button>
 
-<!-- Lock -->
-<div id="lockScreen">
-    <p>🔐 Enter our secret word</p>
-    <input id="password" placeholder="e.g. forever">
-    <button onclick="unlock()">Unlock</button>
-</div>
-
 <!-- Envelope -->
-<div class="envelope" id="env" style="display:none" onclick="openEnvelope()">
+<div class="envelope" onclick="openEnvelope()">
     <img src="https://i.imgur.com/Zb7ZQyD.png" width="300">
 </div>
 
 <!-- Card -->
 <div class="card border-rose" id="card">
 
-<textarea id="messageInput" rows="3" style="width:90%" placeholder="Write your love message..."></textarea>
-<p class="script" id="messageDisplay"></p>
-<button onclick="showMessage()">💌 Reveal Message</button>
+<p class="script">
+Dear Liyana,<br><br>
+
+I am sorry that I can’t be with you on Valentine’s Day. I made this special card so I can send my wishes to you from far away. You are my friend, my lover, my ride or die, and everything I could ever wish for in my world.<br><br>
+
+Never question my love for you, because my heart for you is bigger than for anyone else. I may not be a rich man, but I am a man with a pure heart and genuine love—and that I am, always and forever, for you.
+</p>
 
 <h3>📸 Our Memories</h3>
-<input type="file" multiple accept="image/*" onchange="loadImages(event)">
-<div class="gallery" id="gallery"></div>
+<div class="gallery">
+    <img src="poji.png" alt="Memory 1">
+    <img src="poji 2.png" alt="Memory 2">
+    <img src="poji 3.png" alt="Memory 3">
+</div>
 
 <h3>🌸 Floral Border</h3>
 <button onclick="setBorder('border-rose')">Rose</button>
@@ -133,11 +156,11 @@ input{padding:8px;border-radius:10px;border:1px solid #ccc}
 <span class="seal" onclick="seal()">🌹</span>
 <span class="seal" onclick="seal()">💎</span>
 
-<h3>⏳ Countdown</h3>
+<h3>⏳ Countdown to Our Day</h3>
 <input type="date" id="dateInput">
 <div id="countdown"></div>
 
-<h3>📍 Our Memory Map</h3>
+<h3>📍 Our Memory — Bukit Bintang, Kuala Lumpur</h3>
 <div id="map"></div>
 
 <h3>🔐 Secret Romantic Poem</h3>
@@ -148,95 +171,77 @@ input{padding:8px;border-radius:10px;border:1px solid #ccc}
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
-// Hearts
+// Falling hearts
 for(let i=0;i<30;i++){
- let h=document.createElement("div");
- h.className="heart";
- h.innerHTML="♥";
- h.style.left=Math.random()*100+"vw";
- h.style.animationDuration=3+Math.random()*5+"s";
- document.body.appendChild(h);
+    let h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="♥";
+    h.style.left=Math.random()*100+"vw";
+    h.style.animationDuration=3+Math.random()*5+"s";
+    document.body.appendChild(h);
 }
 
-// Password
-function unlock(){
- if(document.getElementById("password").value.toLowerCase()=="forever"){
-    document.getElementById("lockScreen").style.display="none";
-    document.getElementById("env").style.display="block";
- } else alert("Wrong secret 💔");
-}
-
-// Envelope
+// Envelope open
 function openEnvelope(){
- document.getElementById("env").style.display="none";
- document.getElementById("card").style.display="block";
- initMap();
-}
-
-// Message
-function showMessage(){
- document.getElementById("messageDisplay").innerText=
- document.getElementById("messageInput").value;
+    document.querySelector(".envelope").style.display="none";
+    document.getElementById("card").style.display="block";
+    initMap();
 }
 
 // Music
 function toggleMusic(){
- let m=document.getElementById("music");
- m.paused?m.play():m.pause();
-}
-
-// Gallery
-function loadImages(e){
- let g=document.getElementById("gallery");
- for(let f of e.target.files){
-  let img=document.createElement("img");
-  img.src=URL.createObjectURL(f);
-  g.appendChild(img);
- }
+    let m=document.getElementById("music");
+    m.paused ? m.play() : m.pause();
 }
 
 // Border
-function setBorder(b){
- document.getElementById("card").className="card "+b;
+function setBorder(cls){
+    document.getElementById("card").className="card "+cls;
 }
 
 // Countdown
 setInterval(()=>{
- let d=new Date(document.getElementById("dateInput").value);
- let now=new Date();
- let diff=d-now;
- if(diff>0)
- document.getElementById("countdown").innerText=
- Math.floor(diff/86400000)+" days until our moment 💕";
+    let d=new Date(document.getElementById("dateInput").value);
+    let now=new Date();
+    let diff=d-now;
+    if(diff>0){
+        document.getElementById("countdown").innerText =
+        Math.floor(diff/86400000)+" days to go 💕";
+    }
 },1000);
 
 // Poem
 function generatePoem(){
- let p=[
-  "Every star knows your name in my heart.",
-  "Time pauses when your love holds me.",
-  "Our story is written in forever.",
-  "Your love is the miracle I live in."
- ];
- document.getElementById("poem").innerText=p[Math.floor(Math.random()*p.length)];
+    let poems=[
+        "Every memory leads me back to you.",
+        "Bukit Bintang holds our laughter forever.",
+        "With you, every place becomes sacred.",
+        "Our love lives in moments like these."
+    ];
+    document.getElementById("poem").innerText =
+    poems[Math.floor(Math.random()*poems.length)];
 }
 
 // Wax seal
 function seal(){
- alert("🔐 Envelope sealed with love");
+    alert("🔐 Sealed with love");
 }
 
-// Map
-let map;
+// Map – Bukit Bintang
 function initMap(){
- map=L.map('map').setView([2.1896,102.2501],5);
- L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
- map.on('click',e=>{
-  L.marker(e.latlng).addTo(map)
-   .bindPopup("💖 Our memory").openPopup();
- });
+    let bukitBintang = [3.1466, 101.7101];
+    let map = L.map('map').setView(bukitBintang, 16);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    L.marker(bukitBintang).addTo(map)
+        .bindPopup("💖 Bukit Bintang<br>Where our memory lives")
+        .openPopup();
 }
 </script>
 
 </body>
 </html>
+
