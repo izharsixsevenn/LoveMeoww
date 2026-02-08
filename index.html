@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Our Love Story 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<style>
+body{
+    margin:0;
+    font-family:'Playfair Display',serif;
+    background:linear-gradient(to bottom,#ffd1dc,#fff);
+    text-align:center;
+}
+h1{color:#c2185b}
+
+/* Falling hearts */
+.heart{
+    position:fixed;
+    top:-10px;
+    color:rgba(255,0,100,.6);
+    font-size:20px;
+    animation:fall linear infinite;
+}
+@keyframes fall{to{transform:translateY(110vh);}}
+
+/* Envelope */
+.envelope{
+    width:300px;
+    margin:40px auto;
+    cursor:pointer;
+}
+.card{
+    display:none;
+    background:white;
+    padding:20px;
+    border-radius:20px;
+    box-shadow:0 15px 30px rgba(0,0,0,.2);
+}
+
+/* Script text */
+.script{
+    font-family:'Great Vibes',cursive;
+    font-size:30px;
+    color:#c2185b;
+}
+
+/* Buttons */
+button{
+    background:#c2185b;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:20px;
+    margin:5px;
+    cursor:pointer;
+}
+
+/* Gallery */
+.gallery img{
+    width:120px;
+    border-radius:15px;
+    margin:5px;
+}
+
+/* Borders */
+.border-rose{border:10px solid pink}
+.border-lily{border:10px solid lavender}
+.border-daisy{border:10px solid peachpuff}
+
+/* Wax seal */
+.seal{
+    font-size:35px;
+    cursor:pointer;
+    transition:transform .3s;
+}
+.seal:active{transform:scale(.9)}
+
+/* Map */
+#map{height:300px;border-radius:15px;margin:15px}
+
+/* Countdown */
+#countdown{font-size:18px;margin:10px}
+
+/* Password */
+#lockScreen{margin-top:30px}
+input{padding:8px;border-radius:10px;border:1px solid #ccc}
+</style>
+</head>
+
+<body>
+
+<h1>Happy Anniversary 💕</h1>
+
+<!-- Music -->
+<audio id="music" loop>
+  <source src="piano.mp3" type="audio/mpeg">
+</audio>
+<button onclick="toggleMusic()">🎶 Music</button>
+
+<!-- Lock -->
+<div id="lockScreen">
+    <p>🔐 Enter our secret word</p>
+    <input id="password" placeholder="e.g. forever">
+    <button onclick="unlock()">Unlock</button>
+</div>
+
+<!-- Envelope -->
+<div class="envelope" id="env" style="display:none" onclick="openEnvelope()">
+    <img src="https://i.imgur.com/Zb7ZQyD.png" width="300">
+</div>
+
+<!-- Card -->
+<div class="card border-rose" id="card">
+
+<textarea id="messageInput" rows="3" style="width:90%" placeholder="Write your love message..."></textarea>
+<p class="script" id="messageDisplay"></p>
+<button onclick="showMessage()">💌 Reveal Message</button>
+
+<h3>📸 Our Memories</h3>
+<input type="file" multiple accept="image/*" onchange="loadImages(event)">
+<div class="gallery" id="gallery"></div>
+
+<h3>🌸 Floral Border</h3>
+<button onclick="setBorder('border-rose')">Rose</button>
+<button onclick="setBorder('border-lily')">Lily</button>
+<button onclick="setBorder('border-daisy')">Daisy</button>
+
+<h3>🕯 Wax Seal</h3>
+<span class="seal" onclick="seal()">❤️</span>
+<span class="seal" onclick="seal()">🌹</span>
+<span class="seal" onclick="seal()">💎</span>
+
+<h3>⏳ Countdown</h3>
+<input type="date" id="dateInput">
+<div id="countdown"></div>
+
+<h3>📍 Our Memory Map</h3>
+<div id="map"></div>
+
+<h3>🔐 Secret Romantic Poem</h3>
+<button onclick="generatePoem()">✨ Generate Poem</button>
+<p class="script" id="poem"></p>
+
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+// Hearts
+for(let i=0;i<30;i++){
+ let h=document.createElement("div");
+ h.className="heart";
+ h.innerHTML="♥";
+ h.style.left=Math.random()*100+"vw";
+ h.style.animationDuration=3+Math.random()*5+"s";
+ document.body.appendChild(h);
+}
+
+// Password
+function unlock(){
+ if(document.getElementById("password").value.toLowerCase()=="forever"){
+    document.getElementById("lockScreen").style.display="none";
+    document.getElementById("env").style.display="block";
+ } else alert("Wrong secret 💔");
+}
+
+// Envelope
+function openEnvelope(){
+ document.getElementById("env").style.display="none";
+ document.getElementById("card").style.display="block";
+ initMap();
+}
+
+// Message
+function showMessage(){
+ document.getElementById("messageDisplay").innerText=
+ document.getElementById("messageInput").value;
+}
+
+// Music
+function toggleMusic(){
+ let m=document.getElementById("music");
+ m.paused?m.play():m.pause();
+}
+
+// Gallery
+function loadImages(e){
+ let g=document.getElementById("gallery");
+ for(let f of e.target.files){
+  let img=document.createElement("img");
+  img.src=URL.createObjectURL(f);
+  g.appendChild(img);
+ }
+}
+
+// Border
+function setBorder(b){
+ document.getElementById("card").className="card "+b;
+}
+
+// Countdown
+setInterval(()=>{
+ let d=new Date(document.getElementById("dateInput").value);
+ let now=new Date();
+ let diff=d-now;
+ if(diff>0)
+ document.getElementById("countdown").innerText=
+ Math.floor(diff/86400000)+" days until our moment 💕";
+},1000);
+
+// Poem
+function generatePoem(){
+ let p=[
+  "Every star knows your name in my heart.",
+  "Time pauses when your love holds me.",
+  "Our story is written in forever.",
+  "Your love is the miracle I live in."
+ ];
+ document.getElementById("poem").innerText=p[Math.floor(Math.random()*p.length)];
+}
+
+// Wax seal
+function seal(){
+ alert("🔐 Envelope sealed with love");
+}
+
+// Map
+let map;
+function initMap(){
+ map=L.map('map').setView([2.1896,102.2501],5);
+ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+ map.on('click',e=>{
+  L.marker(e.latlng).addTo(map)
+   .bindPopup("💖 Our memory").openPopup();
+ });
+}
+</script>
+
+</body>
+</html>
