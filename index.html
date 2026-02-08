@@ -12,13 +12,15 @@
 body{
     margin:0;
     font-family:'Poppins',sans-serif;
-    background:
-      url("https://i.imgur.com/QZ6X9Qp.png"), /* Hello Kitty style background */
-      linear-gradient(to bottom,#ffd6e8,#fff);
-    background-size:cover;
-    background-position:center;
     text-align:center;
     overflow-x:hidden;
+
+    /* Fixed Hello Kitty background */
+    background-color:#ffd6e8;
+    background-image: url('https://i.imgur.com/z3S9C2v.png'); /* direct PNG link */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 /* Main title */
@@ -40,7 +42,7 @@ h1{
     to{transform:translateY(110vh);}
 }
 
-/* ================= ENVELOPE ================= */
+/* ENVELOPE */
 .envelope-wrapper{
     display:flex;
     justify-content:center;
@@ -95,7 +97,7 @@ button{
 .yes{background:#ff69b4;color:white;}
 .no{background:#ddd;position:relative;}
 
-/* ================= CARD ================= */
+/* CARD */
 .card{
     display:none;
     background:#fff;
