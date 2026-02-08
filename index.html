@@ -12,15 +12,17 @@
 body{
     margin:0;
     font-family:'Poppins',sans-serif;
-    background:linear-gradient(to bottom,#ffd1dc,#fff);
+    background:
+      url("https://www.transparenttextures.com/patterns/hearts.png"),
+      linear-gradient(to bottom,#ffd6e8,#fff);
     text-align:center;
     overflow-x:hidden;
 }
 
 h1{
-    color:#b1124c;
     font-family:'Parisienne',cursive;
     font-size:56px;
+    color:#b1124c;
 }
 
 /* Falling hearts */
@@ -52,10 +54,7 @@ h1{
 
 .flap{
     position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
+    inset:0;
     background:#e89ab0;
     clip-path:polygon(0 0,100% 0,50% 55%);
     transform-origin:top;
@@ -76,7 +75,6 @@ h1{
     font-family:'Great Vibes',cursive;
     font-size:34px;
     color:#b1124c;
-    margin-bottom:14px;
 }
 
 .envelope.open .flap{
@@ -99,12 +97,6 @@ h1{
     font-size:36px;
     color:#b1124c;
     line-height:1.7;
-    animation:fadeIn 2.5s ease;
-}
-
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(15px);}
-    to{opacity:1; transform:translateY(0);}
 }
 
 h3{
@@ -156,6 +148,32 @@ button{
     border-radius:18px;
     margin:20px 0;
 }
+
+/* Flowers */
+.flower{
+    position:fixed;
+    bottom:-60px;
+    font-size:40px;
+    animation:floatUp 4s ease-out forwards;
+    pointer-events:none;
+    z-index:5;
+}
+@keyframes floatUp{
+    to{transform:translateY(-110vh) scale(1.2); opacity:0;}
+}
+
+/* Bows */
+.bow{
+    position:fixed;
+    top:-40px;
+    font-size:32px;
+    animation:bowFall 5s linear forwards;
+    pointer-events:none;
+    z-index:4;
+}
+@keyframes bowFall{
+    to{transform:translateY(110vh) rotate(360deg); opacity:0;}
+}
 </style>
 </head>
 
@@ -163,7 +181,6 @@ button{
 
 <h1>Happy Valentine’s Day 💕</h1>
 
-<!-- Music -->
 <audio id="music" loop>
   <source src="piano.mp3" type="audio/mpeg">
 </audio>
@@ -186,12 +203,9 @@ button{
 
 <p class="script">
 Dear Liyana,<br><br>
-
-I am sorry that I can’t be with you on Valentine’s Day. I made this special card so I can send my wishes to you from far away.
-You are my friend, my lover, my ride or die, and everything I could ever wish for in my world.<br><br>
-
-Never question my love for you, because my heart for you is bigger than for anyone else.
-I may not be a rich man, but I am a man with a pure heart and genuine love—and that I am, always and forever, for you.
+I may not be with you today, but my heart is always with you.
+Every memory, every smile, every place feels warmer because of you.
+Always and forever — it’s you.
 </p>
 
 <h3>📸 Our Memories</h3>
@@ -206,7 +220,12 @@ I may not be a rich man, but I am a man with a pure heart and genuine love—and
 <button onclick="setBorder('border-lily')">Lily</button>
 <button onclick="setBorder('border-daisy')">Daisy</button>
 
-<h3>📍 Our Memory — Bukit Bintang, Kuala Lumpur</h3>
+<h3>🌷 Send Me Flowers</h3>
+<button onclick="showFlowers('rose')">🌹 Rose</button>
+<button onclick="showFlowers('tulip')">🌷 Tulip</button>
+<button onclick="showFlowers('lily')">🌸 Lily</button>
+
+<h3>📍 Our Memory — Bukit Bintang</h3>
 <div id="map"></div>
 
 <h3>🔐 Secret Romantic Poem</h3>
@@ -233,56 +252,75 @@ function toggleMusic(){
     m.paused ? m.play() : m.pause();
 }
 
-// YES → open envelope → show card
+// YES
 function answerYes(){
-    document.getElementById("envelope").classList.add("open");
+    envelope.classList.add("open");
+    showFlowers('rose');
+    showBows();
     setTimeout(()=>{
         document.querySelector(".envelope-wrapper").style.display="none";
-        document.getElementById("card").style.display="block";
+        card.style.display="block";
         initMap();
     },900);
 }
 
-// NO → not the answer 😌
-const noBtn = document.getElementById("noBtn");
+// NO runs away
 noBtn.addEventListener("mouseover", ()=>{
     noBtn.style.left = Math.random()*120 - 60 + "px";
     noBtn.style.top  = Math.random()*80 - 40 + "px";
 });
 
-// Border change
+// Borders
 function setBorder(cls){
-    document.getElementById("card").className="card "+cls;
+    card.className="card "+cls;
 }
 
-// Poem
+// Poems
 function generatePoem(){
-    let poems=[
-        "Every memory leads me back to you.",
-        "Bukit Bintang holds our laughter forever.",
-        "With you, every place becomes sacred.",
-        "Our love lives in moments like these."
+    const poems=[
+        "With you, love feels gentle and true.",
+        "Every place becomes home with you.",
+        "My heart smiles when it finds you."
     ];
-    document.getElementById("poem").innerText =
-    poems[Math.floor(Math.random()*poems.length)];
+    poem.innerText=poems[Math.floor(Math.random()*poems.length)];
+}
+
+// Flowers
+function showFlowers(type){
+    let emoji = type==="tulip"?"🌷":type==="lily"?"🌸":"🌹";
+    for(let i=0;i<15;i++){
+        let f=document.createElement("div");
+        f.className="flower";
+        f.innerHTML=emoji;
+        f.style.left=Math.random()*100+"vw";
+        document.body.appendChild(f);
+        setTimeout(()=>f.remove(),4000);
+    }
+}
+
+// Bows
+function showBows(){
+    for(let i=0;i<12;i++){
+        let b=document.createElement("div");
+        b.className="bow";
+        b.innerHTML="🎀";
+        b.style.left=Math.random()*100+"vw";
+        document.body.appendChild(b);
+        setTimeout(()=>b.remove(),5000);
+    }
 }
 
 // Map
 function initMap(){
-    let bukitBintang = [3.1466, 101.7101];
-    let map = L.map('map').setView(bukitBintang, 16);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap'
-    }).addTo(map);
-
-    L.marker(bukitBintang).addTo(map)
-        .bindPopup("💖 Bukit Bintang<br>Where our memory lives")
-        .openPopup();
+    let map=L.map('map').setView([3.1466,101.7101],16);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    L.marker([3.1466,101.7101]).addTo(map)
+      .bindPopup("💖 Bukit Bintang").openPopup();
 }
 </script>
 
 </body>
 </html>
+
 
 
