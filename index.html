@@ -4,20 +4,24 @@
 <meta charset="UTF-8">
 <title>For Liyana 💖</title>
 
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Allura&family=Playfair+Display&display=swap" rel="stylesheet">
+<!-- Lovely Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Parisienne&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
 <style>
 body{
     margin:0;
-    font-family:'Playfair Display',serif;
+    font-family:'Poppins',sans-serif;
     background:linear-gradient(to bottom,#ffd1dc,#fff);
     text-align:center;
     overflow-x:hidden;
 }
 
-h1{color:#b1124c}
+h1{
+    color:#b1124c;
+    font-family:'Parisienne',cursive;
+    font-size:56px;
+}
 
 /* Falling hearts */
 .heart{
@@ -69,13 +73,12 @@ h1{color:#b1124c}
 }
 
 .letter p{
-    font-family:'Allura',cursive;
-    font-size:30px;
+    font-family:'Great Vibes',cursive;
+    font-size:34px;
     color:#b1124c;
     margin-bottom:14px;
 }
 
-/* Open animation */
 .envelope.open .flap{
     transform:rotateX(180deg);
 }
@@ -91,12 +94,11 @@ h1{color:#b1124c}
     margin:20px auto;
 }
 
-/* Love letter */
 .script{
-    font-family:'Allura',cursive;
-    font-size:34px;
+    font-family:'Great Vibes',cursive;
+    font-size:36px;
     color:#b1124c;
-    line-height:1.6;
+    line-height:1.7;
     animation:fadeIn 2.5s ease;
 }
 
@@ -105,20 +107,28 @@ h1{color:#b1124c}
     to{opacity:1; transform:translateY(0);}
 }
 
+h3{
+    font-family:'Parisienne',cursive;
+    font-size:32px;
+    color:#b1124c;
+    margin-top:30px;
+}
+
 /* Buttons */
 button{
+    font-family:'Poppins',sans-serif;
+    font-size:15px;
     background:#b1124c;
     color:white;
     border:none;
-    padding:10px 18px;
+    padding:10px 20px;
     border-radius:25px;
     margin:6px;
     cursor:pointer;
 }
 
-/* No button (not the answer) */
 #noBtn{
-    background:#999;
+    background:#aaa;
     position:relative;
 }
 
@@ -233,7 +243,7 @@ function answerYes(){
     },900);
 }
 
-// NO → not an option 😌
+// NO → not the answer 😌
 const noBtn = document.getElementById("noBtn");
 noBtn.addEventListener("mouseover", ()=>{
     noBtn.style.left = Math.random()*120 - 60 + "px";
