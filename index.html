@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>For Liyana 💖</title>
 
-<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Parisienne&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
@@ -14,8 +13,6 @@ body{
     font-family:'Poppins',sans-serif;
     text-align:center;
     overflow-x:hidden;
-
-    /* Embedded Hello Kitty background (guaranteed to show) */
     background-color:#ffd6e8;
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAH0lEQVQYV2NkYGBgYGBg+M9AC1CFIwwGhkF6QYABh0CAGxYEwYAAAAASUVORK5CYII=');
     background-size: cover;
@@ -23,14 +20,12 @@ body{
     background-repeat: no-repeat;
 }
 
-/* Main title */
 h1{
     font-family:'Parisienne',cursive;
     font-size:56px;
     color:#b1124c;
 }
 
-/* Falling hearts */
 .heart{
     position:fixed;
     top:-10px;
@@ -42,7 +37,6 @@ h1{
     to{transform:translateY(110vh);}
 }
 
-/* ENVELOPE */
 .envelope-wrapper{
     display:flex;
     justify-content:center;
@@ -84,7 +78,6 @@ h1{
     transform:rotateX(180deg);
 }
 
-/* Buttons */
 button{
     font-family:'Poppins',sans-serif;
     font-size:15px;
@@ -97,7 +90,6 @@ button{
 .yes{background:#ff69b4;color:white;}
 .no{background:#ddd;position:relative;}
 
-/* CARD */
 .card{
     display:none;
     background:#fff;
@@ -109,7 +101,6 @@ button{
     font-family:'Great Vibes',cursive;
 }
 
-/* Script / text */
 .script{
     font-family:'Great Vibes',cursive;
     font-size:28px;
@@ -117,7 +108,6 @@ button{
     line-height:1.7;
 }
 
-/* Headings */
 h3{
     font-family:'Parisienne',cursive;
     font-size:32px;
@@ -125,7 +115,6 @@ h3{
     margin-top:30px;
 }
 
-/* Gallery */
 .gallery{
     display:flex;
     flex-wrap:wrap;
@@ -138,19 +127,16 @@ h3{
     box-shadow:0 8px 20px rgba(0,0,0,0.2);
 }
 
-/* Borders */
 .border-rose{border:10px solid pink}
 .border-lily{border:10px solid lavender}
 .border-daisy{border:10px solid peachpuff}
 
-/* Map */
 #map{
     height:320px;
     border-radius:18px;
     margin:20px 0;
 }
 
-/* Flowers */
 .flower{
     position:fixed;
     bottom:-60px;
@@ -165,7 +151,6 @@ h3{
     100%{opacity:0; transform:translateY(-120vh) scale(1.2);}
 }
 
-/* Bows */
 .bow{
     position:fixed;
     top:-40px;
@@ -184,12 +169,14 @@ h3{
 
 <h1>Happy Valentine’s Day 💕</h1>
 
+<!-- AUDIO -->
 <audio id="music" loop>
-  <source src="piano.mp3" type="audio/mpeg">
+  <source src="love.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
 </audio>
-<button onclick="toggleMusic()">🎶 Music</button>
 
-<!-- ENVELOPE -->
+<button onclick="toggleMusic()">🎶 Play / Pause Music</button>
+
 <div class="envelope-wrapper">
     <div class="envelope" id="envelope">
         <div class="flap"></div>
@@ -201,7 +188,6 @@ h3{
     </div>
 </div>
 
-<!-- CARD -->
 <div class="card border-rose" id="card">
 <p class="script">
 Dear Liyana,<br><br>
@@ -212,32 +198,20 @@ Never question my love for you; my heart is yours forever.
 
 <h3>📸 Our Memories</h3>
 <div class="gallery">
-<img src="./pic1.png" alt="pic1">
-<img src="./pic2.png" alt="pic2">
-<img src="./pic3.png" alt="pic3">
+<img src="./pic1.png">
+<img src="./pic2.png">
+<img src="./pic3.png">
 </div>
-
-<h3>🌸 Floral Border</h3>
-<button onclick="setBorder('border-rose')">Rose</button>
-<button onclick="setBorder('border-lily')">Lily</button>
-<button onclick="setBorder('border-daisy')">Daisy</button>
-
-<h3>🌷 Send Me Flowers</h3>
-<button onclick="showFlowers('🌹')">Rose</button>
-<button onclick="showFlowers('🌷')">Tulip</button>
-<button onclick="showFlowers('🌸')">Lily</button>
 
 <h3>📍 Our Memory — Bukit Bintang</h3>
 <div id="map"></div>
 
-<h3>🔐 Secret Romantic Poem</h3>
-<button onclick="generatePoem()">✨ Generate Poem</button>
 <p class="script" id="poem"></p>
 </div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
-// Falling hearts
+
 for(let i=0;i<30;i++){
     let h=document.createElement("div");
     h.className="heart";
@@ -247,18 +221,27 @@ for(let i=0;i<30;i++){
     document.body.appendChild(h);
 }
 
-// Music toggle
 function toggleMusic(){
     let m=document.getElementById("music");
-    m.paused ? m.play() : m.pause();
+    if(m.paused){
+        m.volume=0.5;
+        m.play();
+    }else{
+        m.pause();
+    }
 }
 
-// YES → open envelope → show card + bows/flowers
 function answerYes(){
     const envelope=document.getElementById("envelope");
     envelope.classList.add("open");
+
+    const music=document.getElementById("music");
+    music.volume=0.5;
+    music.play();
+
     showBows();
     showFlowers('🌹');
+
     setTimeout(()=>{
         document.querySelector(".envelope-wrapper").style.display="none";
         document.getElementById("card").style.display="block";
@@ -266,31 +249,12 @@ function answerYes(){
     },900);
 }
 
-// NO button moves
 function moveNo(btn){
     btn.style.position="absolute";
     btn.style.left=Math.random()*200+"px";
     btn.style.top=Math.random()*100+"px";
 }
 
-// Border change
-function setBorder(cls){
-    document.getElementById("card").className="card "+cls;
-}
-
-// Generate poem
-function generatePoem(){
-    const poems=[
-        "Every memory leads me back to you.",
-        "Bukit Bintang holds our laughter forever.",
-        "With you, every place becomes sacred.",
-        "Our love lives in moments like these."
-    ];
-    document.getElementById("poem").innerText=
-        poems[Math.floor(Math.random()*poems.length)];
-}
-
-// Flower animation
 function showFlowers(type){
     for(let i=0;i<15;i++){
         let f=document.createElement("div");
@@ -302,7 +266,6 @@ function showFlowers(type){
     }
 }
 
-// Bow animation
 function showBows(){
     for(let i=0;i<12;i++){
         let b=document.createElement("div");
@@ -314,7 +277,6 @@ function showBows(){
     }
 }
 
-// Map
 function initMap(){
     const bukitBintang=[3.1466,101.7101];
     let map=L.map('map').setView(bukitBintang,16);
@@ -322,9 +284,9 @@ function initMap(){
     L.marker(bukitBintang).addTo(map).bindPopup("💖 Bukit Bintang<br>Where our memory lives").openPopup();
 }
 </script>
+
 </body>
 </html>
-
 
 
 
