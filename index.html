@@ -162,6 +162,11 @@ h3{
 @keyframes bowFall{
     to{transform:translateY(110vh) rotate(360deg); opacity:0;}
 }
+
+#flowerSelector{
+    display:none; /* will appear after envelope opens */
+    margin:15px;
+}
 </style>
 </head>
 
@@ -188,6 +193,13 @@ h3{
     </div>
 </div>
 
+<!-- Flower Selector -->
+<div id="flowerSelector">
+  <button onclick="startFlowers('🌹')" class="yes">Rose 🌹</button>
+  <button onclick="startFlowers('🌸')" class="yes">Lily 🌸</button>
+  <button onclick="startFlowers('🌷')" class="yes">Tulip 🌷</button>
+</div>
+
 <div class="card border-rose" id="card">
 <p class="script">
 Dear Liyana,<br><br>
@@ -212,6 +224,7 @@ Never question my love for you; my heart is yours forever.
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
 
+// Floating hearts
 for(let i=0;i<30;i++){
     let h=document.createElement("div");
     h.className="heart";
@@ -221,6 +234,7 @@ for(let i=0;i<30;i++){
     document.body.appendChild(h);
 }
 
+// Music control
 function toggleMusic(){
     let m=document.getElementById("music");
     if(m.paused){
@@ -231,6 +245,7 @@ function toggleMusic(){
     }
 }
 
+// Envelope open
 function answerYes(){
     const envelope=document.getElementById("envelope");
     envelope.classList.add("open");
@@ -240,7 +255,12 @@ function answerYes(){
     music.play();
 
     showBows();
-    showFlowers('🌹');
+
+    // Default flowers
+    startFlowers('🌹');
+
+    // Show flower selector after envelope opens
+    document.getElementById("flowerSelector").style.display="block";
 
     setTimeout(()=>{
         document.querySelector(".envelope-wrapper").style.display="none";
@@ -249,23 +269,29 @@ function answerYes(){
     },900);
 }
 
+// No button moves randomly
 function moveNo(btn){
     btn.style.position="absolute";
     btn.style.left=Math.random()*200+"px";
     btn.style.top=Math.random()*100+"px";
 }
 
-function showFlowers(type){
-    for(let i=0;i<15;i++){
-        let f=document.createElement("div");
-        f.className="flower";
-        f.innerHTML=type;
-        f.style.left=Math.random()*100+"vw";
+// Flower animation
+let flowerInterval;
+function startFlowers(type){
+    if(flowerInterval) clearInterval(flowerInterval);
+
+    flowerInterval = setInterval(()=>{
+        let f = document.createElement("div");
+        f.className = "flower";
+        f.innerHTML = type;
+        f.style.left = Math.random() * 100 + "vw";
         document.body.appendChild(f);
-        setTimeout(()=>f.remove(),4000);
-    }
+        setTimeout(() => f.remove(), 4000);
+    }, 500);
 }
 
+// Bows animation
 function showBows(){
     for(let i=0;i<12;i++){
         let b=document.createElement("div");
@@ -277,6 +303,7 @@ function showBows(){
     }
 }
 
+// Leaflet map
 function initMap(){
     const bukitBintang=[3.1466,101.7101];
     let map=L.map('map').setView(bukitBintang,16);
@@ -287,6 +314,7 @@ function initMap(){
 
 </body>
 </html>
+
 
 
 
