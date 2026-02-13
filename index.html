@@ -164,7 +164,7 @@ h3{
 }
 
 #flowerSelector{
-    display:none; /* will appear after envelope opens */
+    display:none;
     margin:15px;
 }
 </style>
@@ -218,6 +218,8 @@ Never question my love for you; my heart is yours forever.
 <h3>📍 Our Memory — Bukit Bintang</h3>
 <div id="map"></div>
 
+<!-- Generate Poem -->
+<button class="yes" onclick="generatePoem()" style="margin-top:10px;">💌 Generate Poem</button>
 <p class="script" id="poem"></p>
 </div>
 
@@ -310,10 +312,24 @@ function initMap(){
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
     L.marker(bukitBintang).addTo(map).bindPopup("💖 Bukit Bintang<br>Where our memory lives").openPopup();
 }
+
+// Generate poem
+function generatePoem() {
+    const poems = [
+        "Dear Liyana, across Bukit Bintang’s light,\nOur memories shine so bright.\nEvery laugh, every smile,\nMakes my heart dance all the while 💖",
+        "Roses, lilies, tulips too,\nEvery flower reminds me of you.\nLike the card I send today,\nMy love grows more each way 🌹",
+        "Walking through the streets we know,\nBukit Bintang’s lights softly glow.\nEvery memory, every glance,\nTells the story of our romance 💕",
+        "Though Valentine finds us apart,\nYou’re always in my heart.\nThe photos, the places, the love I feel,\nForever ours, forever real 🌷"
+    ];
+
+    const randomIndex = Math.floor(Math.random() * poems.length);
+    document.getElementById("poem").innerText = poems[randomIndex];
+}
 </script>
 
 </body>
 </html>
+
 
 
 
